@@ -2,8 +2,6 @@
 
 Uchihash is a small utility that can save malware analysts the time of dealing with embedded hash values used for various things such as:
 
-## 
-
 - Dynamically importing APIs (especially in shellcode)
 - Checking running process used by analysts (Anti-Analysis)
 - Checking VM or Antivirus artifacts (Anti-Analysis)
@@ -11,8 +9,6 @@ Uchihash is a small utility that can save malware analysts the time of dealing w
 Uchihash can generate hashes with your own custom hashing algorithm, search for a list of hashes in an already generated hashmap and also it can generate an IDAPython script to annotate the hashes with their corresponding values for easier analysis.
 
 # Installation
-
-## 
 
 ```
 $ git clone https://github.com/N1ght-W0lf/Uchihash.git
