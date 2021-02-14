@@ -85,7 +85,11 @@ def hashme(s, hashType):
 
 def calc_hashes(filename, algo, gida):
     hashes = {}
-    with open(os.path.join(data_dir, filename)) as apis:
+    if filename == "apis_list.txt" or filename == "keywords_list.txt":
+        file_path = os.path.join(data_dir, filename)
+    else:
+        file_path = filename
+    with open(file_path) as apis:
         for line in apis:
             line = line.strip()
             hashval = hashme(line.encode(), algo)
@@ -101,7 +105,11 @@ def calc_custom_hash(filename, scriptpath, gida):
     script = importlib.import_module(pathlib.PurePath(scriptpath).stem)
     
     hashes = {}
-    with open(os.path.join(data_dir, filename)) as apis:
+    if filename == "apis_list.txt" or filename == "keywords_list.txt":
+        file_path = os.path.join(data_dir, filename)
+    else:
+        file_path = filename
+    with open(file_path) as apis:
         for line in apis:
             line = line.strip()
             hashval = script.hashme(line.encode())
@@ -190,7 +198,7 @@ def main():
         elif args.keywords:
             calc_hashes("keywords_list.txt", args.algo, args.ida)
         elif args.list:
-            calc_hashes(args.list, args.algo, args.ida, args.ida)
+            calc_hashes(args.list, args.algo, args.ida)
         else:
             parser.print_help()
     elif args.script:
