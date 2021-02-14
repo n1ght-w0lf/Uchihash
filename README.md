@@ -39,15 +39,15 @@ Examples:
 
 # Notes
 
-- `--algo`: One of the available hashing algorithms
+- **`--algo`**: One of the available hashing algorithms
 
-- `--apis`: Hashes a huge list of windows APIs (see [data/apis_list.txt](https://github.com/N1ght-W0lf/Uchihash/blob/main/data/apis_list.txt)`)
-- `--keywords`: Hashes a list of common keywords used by malware families (see [data/keywords_list.txt](https://github.com/N1ght-W0lf/Uchihash/blob/main/data/keywords_list.txt))
+- **`--apis`**: Hashes a huge list of windows APIs (see [data/apis_list.txt](https://github.com/N1ght-W0lf/Uchihash/blob/main/data/apis_list.txt)`)
+- **`--keywords`**: Hashes a list of common keywords used by malware families (see [data/keywords_list.txt](https://github.com/N1ght-W0lf/Uchihash/blob/main/data/keywords_list.txt))
 
-- `--list` :  Words are separated by a newline (see [examples/mywords.txt](https://github.com/N1ght-W0lf/Uchihash/blob/main/examples/mywords.txt))
-- `--script`: Hashing function must be called `hashme()` and the return value must be in hex format `0xDEADBEEF` (see [examples/custom_algo.txt](https://github.com/N1ght-W0lf/Uchihash/blob/main/examples/custom_algo.py))
-- `--search`: File to search must be in JSON format (see [examples/searchme.txt](https://github.com/N1ght-W0lf/Uchihash/blob/main/examples/searchme.txt))
-- `--hashes`: Hash values are separated by a newline and they must be in hex format (see [examples/myhashes.txt](https://github.com/N1ght-W0lf/Uchihash/blob/main/examples/myhashes.txt))
+- **`--list`** :  Words are separated by a newline (see [examples/mywords.txt](https://github.com/N1ght-W0lf/Uchihash/blob/main/examples/mywords.txt))
+- **`--script`**: Hashing function must be called `hashme()` and the return value must be in hex format `0xDEADBEEF` (see [examples/custom_algo.txt](https://github.com/N1ght-W0lf/Uchihash/blob/main/examples/custom_algo.py))
+- **`--search`**: File to search must be in JSON format (see [examples/searchme.txt](https://github.com/N1ght-W0lf/Uchihash/blob/main/examples/searchme.txt))
+- **`--hashes`**: Hash values are separated by a newline and they must be in hex format (see [examples/myhashes.txt](https://github.com/N1ght-W0lf/Uchihash/blob/main/examples/myhashes.txt))
 
 see examples folder for more clarification
 
@@ -77,7 +77,7 @@ see examples folder for more clarification
 
 # Example
 
-Let's take an examples with a real malware family, in this case we have `"BuerLoader"` which is using hash values to dynamically import APIs and it's using a custom hashing algorithm.
+Let's take an examples with a real malware family, in this case we have **`"BuerLoader"`** which is using hash values to dynamically import APIs and it's using a custom hashing algorithm.
 
 First we need to implement the hashing algorithm in python:
 
@@ -109,7 +109,7 @@ Finally we search for the hash values that BuerLoader is using in the generated 
 $ python uchihash.py --search output/hashmap.txt --hashes examples/buer_hashes.txt --ida
 ```
 
-We should get 2 output files, one is `"output/search_hashmap.txt"` which is a smaller hashmap of BuerLoader hash values:
+We should get 2 output files, one is **`"output/search_hashmap.txt"`** which is a smaller hashmap of BuerLoader hash values:
 
 ```
 {
