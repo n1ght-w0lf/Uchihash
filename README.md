@@ -100,13 +100,13 @@ def hashme(s):
 Then we calculate the hashes of all APIs:
 
 ```
-python uchihash.py --script custom_algo.py --apis
+$ python uchihash.py --script custom_algo.py --apis
 ```
 
 Finally we search for the hash values that BuerLoader is using in the generated hashmap, we can also generate an IDAPython script to annotate those hash values with their corresponding API names:
 
 ```
-python uchihash.py --search output/hashmap.txt --hashes examples/buer_hashes.txt --ida
+$ python uchihash.py --search output/hashmap.txt --hashes examples/buer_hashes.txt --ida
 ```
 
 We should get 2 output files, one is `"output/search_hashmap.txt"` which is a smaller hashmap of BuerLoader hash values:
