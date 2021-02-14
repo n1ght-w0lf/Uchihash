@@ -77,7 +77,7 @@ see examples folder for more clarification
 
 # Example
 
-Let's take an examples with a real malware family, in this case we have **`"BuerLoader"`** which is using hash values to dynamically import APIs and it's using a custom hashing algorithm.
+Let's take an examples with a real malware family, in this case we have **`BuerLoader`** which is using hash values to dynamically import APIs and it's using a custom hashing algorithm.
 
 First we need to implement the hashing algorithm in python:
 
@@ -123,6 +123,6 @@ We should get 2 output files, one is **`"output/search_hashmap.txt"`** which is 
 }
 ```
 
-And the other file is `"output/ida_script.py"` which will add the comments to your idb:
+And the other file is **`"output/ida_script.py"`** which will add the comments to your idb:
 
 <img src="screenshots/ida_result.png" />
