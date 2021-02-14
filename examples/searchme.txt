@@ -1,0 +1,13 @@
+{
+  "0x8c19bc8f": "apimonitor-x64",
+  "0x8c29bc91": "apimonitor-x86",
+  "0x95d74826": "x64dbg.exe",
+  "0x6bd6ecda": "ollydbg.exe",
+  "0x5fe821a7": "ida.exe",
+  "0xa8c75a20": "ida64.exe",
+  "0xd3388c4": "pe-sieve32.exe",
+  "0x8d33a8c5": "pe-sieve64.exe",
+  "0x7477a45b": "pestudio.exe",
+  "0x6add49ce": "wireshark",
+  "0x2efb8a21": "procmon.exe"
+}
