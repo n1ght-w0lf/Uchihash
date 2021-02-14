@@ -106,10 +106,10 @@ $ python uchihash.py --script custom_algo.py --apis
 Finally we search for the hash values that BuerLoader is using in the generated hashmap, we can also generate an IDAPython script to annotate those hash values with their corresponding API names:
 
 ```
-$ python uchihash.py --search output/hashmap.txt --hashes examples/buer_hashes.txt --ida
+$ python uchihash.py --search output/hashmap.txt --hashes buer_hashes.txt --ida
 ```
 
-We should get 2 output files, one is **`"output/search_hashmap.txt"`** which is a smaller hashmap of BuerLoader hash values:
+We should get 2 output files, one is **`"output/search_hashmap.txt"`** which maps BuerLoader's hash values to API names:
 
 ```
 {
@@ -123,6 +123,6 @@ We should get 2 output files, one is **`"output/search_hashmap.txt"`** which is 
 }
 ```
 
-And the other file is **`"output/ida_script.py"`** which will add the comments to your idb:
+The other file is **`"output/ida_script.py"`** which will add the comments to your idb:
 
 <img src="screenshots/ida_result.png" />
