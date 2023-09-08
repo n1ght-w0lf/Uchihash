@@ -1,12 +1,16 @@
 # Uchihash
 
-Uchihash is a small utility that can save malware analysts the time of dealing with embedded hash values used for various things such as:
+Uchihash is a small tool that can save malware analysts the time of dealing with embedded hash values used for various things such as:
 
 - Dynamically importing APIs (especially in shellcode)
 - Checking running process used by analysts (Anti-Analysis)
 - Checking VM or Antivirus artifacts (Anti-Analysis)
 
-Uchihash can generate hashes with your own custom hashing algorithm, search for a list of hashes in an already generated hashmap and also it can generate an IDAPython script to annotate the hashes with their corresponding values for easier analysis.
+# Features
+
+- Generate hashes using a standard algorithm or your own custom hashing algorithm.
+- Generate an IDC/IDAPython script to annotate hash values in the analysis database.
+- Generate a hashmap and search for hashes values.
 
 # Installation
 
@@ -18,9 +22,10 @@ $ pip install -r requirements.txt
 # Usage
 
 ```
-usage: uchihash.py [-h] [--algo ALGO] [--apis] [--keywords] [--list LIST] [--script SCRIPT] [--search SEARCH] [--hashes HASHES] [--ida]
+usage: uchihash.py [-h] [--algo ALGO] [--apis] [--keywords] [--list LIST] [--script SCRIPT] [--search SEARCH]
+                   [--hashes HASHES] [--idaidc] [--idapython]
 
-optional arguments:
+options:
   -h, --help       show this help message and exit
   --algo ALGO      Hashing algorithm
   --apis           Calculate hashes of APIs
@@ -29,11 +34,13 @@ optional arguments:
   --script SCRIPT  Script file containing your custom hashing algorithm
   --search SEARCH  Search a JSON File containing hashes mapped to words
   --hashes HASHES  File containing list of hashes to search for
-  --ida            Generate an IDAPython script to annotate hash values
+  --idaidc         Generate an IDC script to annotate hash values in IDA Pro
+  --idapython      Generate an IDAPython script to annotate hash values in IDA Pro
 
 Examples:
     * python uchihash.py --algo crc32 --apis
     * python uchihash.py --algo murmur3 --list mywords.txt
+    * python uchihash.py --script myalgo.py --apis --idapython
     * python uchihash.py --search hashmap.txt --hashes myhashes.txt
 ```
 
@@ -44,7 +51,7 @@ Examples:
 - **`--apis`**: Hashes a huge list of windows APIs (see [data/apis_list.txt](https://github.com/N1ght-W0lf/Uchihash/blob/main/data/apis_list.txt))
 - **`--keywords`**: Hashes a list of common keywords used by malware families such as Analysis tools and VM/Antivirus/EDR artifacts (see [data/keywords_list.txt](https://github.com/N1ght-W0lf/Uchihash/blob/main/data/keywords_list.txt))
 - **`--list`** :  Words are separated by a newline (see [examples/mywords.txt](https://github.com/N1ght-W0lf/Uchihash/blob/main/examples/mywords.txt))
-- **`--script`**: Hashing function must be called `hashme()` and the return value must be in hex format `0xDEADBEEF` (see [examples/custom_algo.txt](https://github.com/N1ght-W0lf/Uchihash/blob/main/examples/custom_algo.py))
+- **`--script`**: The hashing function must be called `hashme` and it takes one argument which is a byte string representing the value we want to calculate the hash for, and the return value must be in hex format (see [examples/custom_algo.txt](https://github.com/N1ght-W0lf/Uchihash/blob/main/examples/custom_algo.py))
 - **`--search`**: File to search must be in JSON format (see [examples/searchme.txt](https://github.com/N1ght-W0lf/Uchihash/blob/main/examples/searchme.txt))
 - **`--hashes`**: Hash values are separated by a newline and they must be in hex format (see [examples/myhashes.txt](https://github.com/N1ght-W0lf/Uchihash/blob/main/examples/myhashes.txt))
 
@@ -96,19 +103,13 @@ def hashme(s):
     return hex(res)
 ```
 
-Then we calculate the hashes of all APIs:
+Then we calculate the hashes of all APIs using the following command:
 
 ```
-$ python uchihash.py --script custom_algo.py --apis
+$ python uchihash.py --script custom_algo.py --apis --idapython
 ```
 
-Finally we search for the hash values that BuerLoader is using in the generated hashmap, we can also generate an IDAPython script to annotate those hash values with their corresponding API names:
-
-```
-$ python uchihash.py --search output/hashmap.txt --hashes buer_hashes.txt --ida
-```
-
-We should get 2 output files, one is **`"output/search_hashmap.txt"`** which maps BuerLoader's hash values to API names:
+This command will generate two files, the first one is **`"output/search_hashmap.txt"`** which maps hash values to their corresponding API names as follows:
 
 ```
 {
@@ -122,6 +123,6 @@ We should get 2 output files, one is **`"output/search_hashmap.txt"`** which map
 }
 ```
 
-The other file is **`"output/ida_script.py"`** which will add the comments to your idb:
+The second file is **`"output/idapython_script.py"`** which you can run in IDA Pro and the script will add the hash comments to your IDB as seen below:
 
 <img src="screenshots/ida_result.png" />
