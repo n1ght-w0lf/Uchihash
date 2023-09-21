@@ -83,7 +83,7 @@ def hashme(s, hashType):
         return hex(fnvhash.fnv1_64(s))
     elif hashType == "fnv1a_64":
         return hex(fnvhash.fnv1a_64(s))
-    elif hashType == "murmur3": # this might also take a different seed
+    elif hashType == "murmur3": # This might also take a different seed
         return hex(mmh3.hash(s, signed=False))
 
 def build_patterns_and_comments(hashes):
@@ -91,9 +91,9 @@ def build_patterns_and_comments(hashes):
 
     for h, v in hashes.items():
         h = h[2:]
-        h = (len(h)%2 * '0') + h  # padding with '0' if odd length
+        h = (len(h)%2 * '0') + h  # Padding with '0' if the length is odd
         h = [h[i:i+2] for i in range(0, len(h), 2)]
-        patterns.append(" ".join(h[::-1]))  # search uses little endian
+        patterns.append(" ".join(h[::-1]))  # Use little endian hash bytes
         comments.append(v)
 
 def calc_hashes(filename, algo):
@@ -155,7 +155,7 @@ def search_hashes(search_file, hlist, gida):
         print("[+] Search hashmap written to output folder")
         build_patterns_and_comments(hashes)
 
-def generate_idaidc():
+def generate_idaidc_script():
     global patterns, comments
 
     # Builld patterns array str
@@ -202,9 +202,9 @@ static main()
     
     with open(os.path.join(out_dir, "idc_script.idc"), "w") as f:
         f.write(script)
-        print("[+] IDC script written to output folder")
+        print("[+] IDC script written to: \"output/idc_script.idc\"")
 
-def generate_idapython():
+def generate_idapython_script():
     global patterns, comments
 
     script = f"""# IDAPython script to comment hash values
@@ -243,7 +243,36 @@ for i in range(len(patterns)):
     
     with open(os.path.join(out_dir, "idapython_script.py"), "w") as f:
         f.write(script)
-        print("[+] IDAPython script written to output folder")
+        print("[+] IDAPython script written to: \"output/idapython_script.py\"")
+
+def generate_ghidra_script():
+    global patterns, comments
+    max_array_length = 16300
+
+    script = f"""# Ghidra script to comment hash values
+
+from ghidra.program.model.address.Address import *
+from ghidra.program.model.listing.CodeUnit import *
+from ghidra.program.model.listing.Listing import *
+
+patterns = {patterns[:max_array_length]}
+comments = {comments[:max_array_length]}
+
+listing = currentProgram.getListing()
+minAddress = currentProgram.getMinAddress()
+
+for i in range(len(patterns)):
+    p = '\\\\x' + patterns[i].replace(' ', '\\\\x')
+    for addr in findBytes(minAddress, p, 0):
+        insn = listing.getInstructionBefore(addr)
+        if insn is not None:
+            print("{{}}: {{}}".format(addr.toString(), comments[i]))
+            insn.setComment(insn.EOL_COMMENT, comments[i])
+"""
+    
+    with open(os.path.join(out_dir, "ghidra_script.py"), "w") as f:
+        f.write(script)
+        print("[+] Ghidra script written to: \"output/ghidra_script.py\"")
 
 def check_outdir():
     global current_path, data_dir, out_dir
@@ -271,6 +300,7 @@ def main():
     parser.add_argument("--hashes", help="File containing list of hashes to search for")
     parser.add_argument("--idaidc", action="store_true", help="Generate an IDC script to annotate hash values in IDA Pro")
     parser.add_argument("--idapython", action="store_true", help="Generate an IDAPython script to annotate hash values in IDA Pro")
+    parser.add_argument("--ghidra", action="store_true", help="Generate a python script to annotate hash values in Ghidra")
 
     args = parser.parse_args()
 
@@ -298,9 +328,11 @@ def main():
         parser.print_help()
 
     if args.idaidc:
-        generate_idaidc()
+        generate_idaidc_script()
     elif args.idapython:
-        generate_idapython()
+        generate_idapython_script()
+    elif args.ghidra:
+        generate_ghidra_script()
 
 if __name__ == '__main__':
     main()
