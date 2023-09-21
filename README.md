@@ -9,7 +9,7 @@ Uchihash is a small tool that can save malware analysts the time of dealing with
 # Features
 
 - Generate hashes using a standard algorithm or your own custom hashing algorithm.
-- Generate an IDC/IDAPython script to annotate hash values in the analysis database.
+- Generate scripts (IDC, IDAPython, Ghidra) to annotate hash values in your analysis database.
 - Generate a hashmap and search for hashes values.
 
 # Installation
@@ -36,6 +36,7 @@ options:
   --hashes HASHES  File containing list of hashes to search for
   --idaidc         Generate an IDC script to annotate hash values in IDA Pro
   --idapython      Generate an IDAPython script to annotate hash values in IDA Pro
+  --ghidra         Generate a python script to annotate hash values in Ghidra
 
 Examples:
     * python uchihash.py --algo crc32 --apis
